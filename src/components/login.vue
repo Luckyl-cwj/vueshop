@@ -55,7 +55,7 @@
           const {data:res} = await this.$http.post('login', this.loginForm)
           if(res.meta.status !==200) return this.$message.error('denglushibai')
           this.$message.success('dengluchenggong')
-          console.log(res);
+          // console.log(res);
           window.sessionStorage.setItem('token', res.data.token)
           this.$router.push('/home')
         })
