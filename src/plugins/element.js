@@ -4,7 +4,7 @@ import { header, container, aside, main } from 'element-ui'//主页头部
 import { menu, submenu, menuItemGroup, menuItem } from 'element-ui'//主页左侧，
 import {
     breadcrumb, breadcrumbItem, card, row, col, table,
-    tableColumn, Switch, tooltip, pagination, Dialog, MessageBox
+    tableColumn, Switch, tooltip, pagination, Dialog, MessageBox,tag,tree,select,option
 } from 'element-ui'//主页main
 
 
@@ -34,6 +34,10 @@ Vue.use(Switch)
 Vue.use(tooltip)
 Vue.use(pagination)
 Vue.use(Dialog)
+Vue.use(tag)
+Vue.use(option)
+Vue.use(select)
+Vue.use(tree)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm

@@ -13,7 +13,7 @@
                                 <div class="toggle-button" @click='toggleCollapse'>|||</div>
                                 <el-menu background-color="#485a4c" text-color="#fff" active-text-color="#ffd04b"
                                         :unique-opened='true' :collapse="isCollapse" :collapse-transition="false"
-                                        :router ='true' :default-active='active'>
+                                        :router='true' :default-active='active'>
                                         <el-submenu :index="item.id+''" v-for='item in menuList' :key='item.id'>
                                                 <template slot="title">
                                                         <i :class="iconList[item.id]"></i>
@@ -49,12 +49,12 @@
                                         '145': 'iconfont icon-baobiao'
                                 },
                                 isCollapse: false,
-                                active:''
+                                active: ''
                         }
                 },
                 created() {
                         this.getMenuList(),
-                        this.active=window.sessionStorage.getItem('activePath')
+                                this.active = window.sessionStorage.getItem('activePath')
                 },
                 methods: {
                         checkout() {
@@ -70,8 +70,8 @@
                         toggleCollapse() {
                                 this.isCollapse = !this.isCollapse
                         },
-                        saveNavState(activePath){
-                                window.sessionStorage.setItem('activePath',activePath   )
+                        saveNavState(activePath) {
+                                window.sessionStorage.setItem('activePath', activePath)
                                 this.active = window.sessionStorage.getItem('activePath')
                         }
                 },

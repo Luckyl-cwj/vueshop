@@ -56,9 +56,9 @@
                             <el-button size='mini' type="danger" icon="el-icon-delete"
                                 @click="userDeleteById(scope.row.id)"></el-button>
                         </el-tooltip>
-                        <el-tooltip :enterable="false" class="item" effect="dark" content="Top Right 提示文字"
-                            placement="top-end">
-                            <el-button size='mini' type="warning size='mini' " icon="el-icon-setting" @click="">
+                        <el-tooltip :enterable="false" class="item" effect="dark" content="分配角色" placement="top-end">
+                            <el-button size='mini' type="warning size='mini' " icon="el-icon-setting"
+                                @click="resetRolerightBut(scope.row)">
                             </el-button>
                         </el-tooltip>
 
@@ -125,6 +125,22 @@
 
                 <el-button @click="changInfoFlag=false ">取 消</el-button>
                 <el-button type="primary" @click="changeUserClick">确 定</el-button>
+            </span>
+        </el-dialog>
+        <!-- 分配角色````````````````````````` -->
+        <el-dialog title="分配角色" :visible.sync="showResetRoleFLag" width="30%" @close="resetRoleDialog">
+            <p>用户:{{setRoleRightRole.username}}</p>
+            <p>角色:{{setRoleRightRole.role_name}}</p>
+            <!-- {{userList}} -->
+            <el-select v-model="seletedRoadId" placeholder="请选择">
+                <el-option v-for="item in roleNameList" :label="item.roleName" :value="item.id"
+                    :disabled="item.disabled">
+                </el-option>
+            </el-select>
+
+            <span slot="footer">
+                <el-button @click=" showResetRoleFLag= false">取 消</el-button>
+                <el-button type="primary" @click="ResetRoleRightConfirm">确 定</el-button>
             </span>
         </el-dialog>
 
@@ -196,7 +212,11 @@
                     mobile: '',
                     email: ''
 
-                }
+                },
+                showResetRoleFLag: false,
+                setRoleRightRole: {},
+                roleNameList: [],
+                seletedRoadId: ''
             }
         },
         created() {
@@ -298,11 +318,37 @@
                         message: '已取消删除'
                     });
                 });
+            },
+            async   resetRolerightBut(setRoleRightRole) {
+                this.setRoleRightRole = setRoleRightRole
 
+                const { data: res } = await this.$http.get('roles')
+                // console.log(res);
+                if (res.meta.status !== 200) return this.$message.error('获取用户列表失败')
+                this.roleNameList = res.data
+                console.log(this.roleNameList);
 
+                this.showResetRoleFLag = true
+            },
+            ResetRoleRightConfirm() {
 
+                this.$http.put(`users/${this.setRoleRightRole.id}/role`, { rid: this.seletedRoadId })
+                    .then(({ data }) => {
+                        // console.log(data);
+                        if (data.meta.status !== 200) {
+                            this.$message.error(data.meta.msg)
+                            this.showResetRoleFLag = false
+                        } else {
+                            this.$message.success(data.meta.msg)
+                            this.showResetRoleFLag = false
+                            this.getUserList()
+                        }
+                    })
 
-
+                // console.log(this.seletedRoadId);
+            },
+            resetRoleDialog() {
+                this.seletedRoadId = ''
             }
         }
     }
